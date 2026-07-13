@@ -6,7 +6,7 @@ public final class AppConstant {
 
     public static final String TODOS_CONTROLLER = "/todo";
 
-    // JSP Pages
+    // Page files
 
     public static final String TODOS_PAGE = "/WEB-INF/todoPage.jsp";
 
