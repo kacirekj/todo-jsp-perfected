@@ -16,19 +16,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Todo list</title>
-    <link
-            rel="stylesheet"
-            href="${pageContext.request.contextPath}/webjars/bootstrap/5.3.8/css/bootstrap.min.css"
-    >
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/webjars/bootstrap/5.3.8/css/bootstrap.min.css">
 </head>
 
 <body>
-<div class="container py-4">
+<div class="container-sm py-4" style="max-width: 1024px;">
     <h1 class="mb-4">Todo list</h1>
 
     <form class="mb-5" method="post" action="<%= AppConstant.TODOS_CONTROLLER %>">
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
+            <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Time</th>
@@ -62,7 +59,7 @@
                     </td>
 
                     <td>
-                        <x:todoPrioritySelect
+                        <x:prioritySelectTodoPage
                                 name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getPriority) %>'
                                 selectedPriority="<%= proposalTodo.getPriority() %>"
                         />
@@ -87,34 +84,46 @@
     <%
     } else {
     %>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead>
-            <tr>
-                <th scope="col">Time</th>
-                <th scope="col">Text</th>
-                <th scope="col">Priority</th>
-            </tr>
-            </thead>
 
-            <tbody>
-            <%
-                for (var existingTodo : pageModel.getExistingTodos()) {
-            %>
-            <tr>
-                <td><%= existingTodo.getTime() %>
-                </td>
-                <td><%= existingTodo.getText() %>
-                </td>
-                <td><%= existingTodo.getPriority() %>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-    </div>
+    <form class="mb-5" method="post" action="<%= AppConstant.TODOS_CONTROLLER %>">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">Priority</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <%
+                    for (int index = 0; index < pageModel.getExistingTodos().size(); index++) {
+                        var existingTodo = pageModel.getExistingTodos().get(index);
+                %>
+                <tr>
+                    <td>
+                        <input class="form-check-input" type="checkbox"
+                               name="<%= toPath(TodoPageSubmit::getRemoveTodoIds) %>"
+                               value="<%= existingTodo.getId() %>">
+                    </td>
+                    <td><%= existingTodo.getTime() %>
+                    </td>
+                    <td><%= existingTodo.getText() %>
+                    </td>
+                    <td><%= existingTodo.getPriority() %>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Remove</button>
+    </form>
     <%
         }
     %>

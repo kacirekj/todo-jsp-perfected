@@ -49,6 +49,7 @@ public class TodoPageController {
                 .toList();
 
         todoRepository.saveAll(newTodos);
+        todoRepository.deleteAllById(formPageSubmit.getRemoveTodoIds());
 
         return "redirect:" + AppConstant.TODOS_CONTROLLER;
     }

@@ -15,4 +15,5 @@ import java.util.List;
 @AllArgsConstructor
 public class TodoPageSubmit {
     private List<Todo> todos = new ArrayList<>();
+    private List<Long> removeTodoIds = new ArrayList<>();
 }
