@@ -3,7 +3,7 @@
 <%@ attribute name="name" type="java.lang.String" required="true" %>
 <%@ attribute name="selectedPriority" type="cz.example.todo.domain.TodoPriority" required="true" %>
 
-<select name="<%= name %>">
+<select class="form-control" name="<%= name %>">
     <%
         for (var priority : TodoPriority.values()) {
     %>

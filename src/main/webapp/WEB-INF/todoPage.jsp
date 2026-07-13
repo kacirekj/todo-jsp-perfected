@@ -16,97 +16,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Todo list</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() + "/style/style.css" %>">
+    <link
+            rel="stylesheet"
+            href="${pageContext.request.contextPath}/webjars/bootstrap/5.3.8/css/bootstrap.min.css"
+    >
 </head>
 
 <body>
-<h1>Todo list</h1>
+<div class="container py-4">
+    <h1 class="mb-4">Todo list</h1>
 
-<form method="post" action="<%= AppConstant.TODOS_CONTROLLER %>">
-    <table>
-        <thead>
-        <tr>
-            <th>Time</th>
-            <th>Text</th>
-            <th>Priority</th>
-        </tr>
-        </thead>
+    <form class="mb-5" method="post" action="<%= AppConstant.TODOS_CONTROLLER %>">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">Priority</th>
+                </tr>
+                </thead>
 
-        <tbody>
-        <%
-            for (int index = 0; index < pageModel.getProposalTodos().size(); index++) {
-                var proposalTodo = pageModel.getProposalTodos().get(index);
-        %>
-        <tr>
-            <td>
-                <input
-                        type="datetime-local"
-                        name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getTime) %>'
-                        value="<%= proposalTodo.getTime() %>"
-                />
-            </td>
+                <tbody>
+                <%
+                    for (int index = 0; index < pageModel.getProposalTodos().size(); index++) {
+                        var proposalTodo = pageModel.getProposalTodos().get(index);
+                %>
+                <tr>
+                    <td>
+                        <input
+                                class="form-control"
+                                type="datetime-local"
+                                name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getTime) %>'
+                                value="<%= proposalTodo.getTime() %>"
+                        />
+                    </td>
 
-            <td>
-                <input
-                        type="text"
-                        name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getText) %>'
-                        value="<%= proposalTodo.getText() %>"
-                />
-            </td>
+                    <td>
+                        <input
+                                class="form-control"
+                                type="text"
+                                name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getText) %>'
+                                value="<%= proposalTodo.getText() %>"
+                        />
+                    </td>
 
-            <td>
-                <x:todoPrioritySelect
-                        name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getPriority) %>'
-                        selectedPriority="<%= proposalTodo.getPriority() %>"
-                />
-            </td>
-        </tr>
-        <%
-            }
-        %>
-        </tbody>
-    </table>
+                    <td>
+                        <x:todoPrioritySelect
+                                name='<%= toPath(TodoPageSubmit::getTodos, index, Todo::getPriority) %>'
+                                selectedPriority="<%= proposalTodo.getPriority() %>"
+                        />
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+                </tbody>
+            </table>
+        </div>
 
-    <button type="submit">Add todos</button>
-</form>
+        <button class="btn btn-primary" type="submit">Add todos</button>
+    </form>
 
-<h2>Current todos</h2>
+    <h2 class="mb-3">Current todos</h2>
 
-<%
-    if (pageModel.getExistingTodos().isEmpty()) {
-%>
-<p>No todo items.</p>
-<%
-} else {
-%>
-<table>
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Text</th>
-        <th>Priority</th>
-    </tr>
-    </thead>
-
-    <tbody>
     <%
-        for (var existingTodo : pageModel.getExistingTodos()) {
+        if (pageModel.getExistingTodos().isEmpty()) {
     %>
-    <tr>
-        <td><%= existingTodo.getTime() %>
-        </td>
-        <td><%= existingTodo.getText() %>
-        </td>
-        <td><%= existingTodo.getPriority() %>
-        </td>
-    </tr>
+    <p class="text-body-secondary">No todo items.</p>
+    <%
+    } else {
+    %>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Text</th>
+                <th scope="col">Priority</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <%
+                for (var existingTodo : pageModel.getExistingTodos()) {
+            %>
+            <tr>
+                <td><%= existingTodo.getTime() %>
+                </td>
+                <td><%= existingTodo.getText() %>
+                </td>
+                <td><%= existingTodo.getPriority() %>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+    </div>
     <%
         }
     %>
-    </tbody>
-</table>
-<%
-    }
-%>
+</div>
+
+<script src="${pageContext.request.contextPath}/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
